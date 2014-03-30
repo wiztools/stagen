@@ -7,7 +7,7 @@ import java.io.File;
  * @author subwiz
  */
 public final class Constants {
-    
+
     public static final File DEFAULT_DIR = new File(".");
     
     private static final String CONTENT_DIR = "content";

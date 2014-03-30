@@ -20,5 +20,10 @@ public class STTemplateExecutor implements TemplateExecutor {
         });
         return st.render();
     }
+
+    @Override
+    public String getFileExtension() {
+        return ".st";
+    }
     
 }

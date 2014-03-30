@@ -8,6 +8,6 @@ import java.io.File;
  * @author subwiz
  */
 @ImplementedBy(MDContentTransformExecutor.class)
-public interface ContentTransformExecutor {
+public interface ContentTransformExecutor extends FileExtension {
     String transform(File file) throws ExecutorException;
 }

@@ -9,6 +9,6 @@ import java.util.Map;
  * @author subwiz
  */
 @ImplementedBy(JsonDataLoader.class)
-public interface DataLoader {
+public interface DataLoader extends FileExtension {
     Map<String, Object> getData(File dataFile) throws ExecutorException;
 }

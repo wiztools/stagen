@@ -24,5 +24,10 @@ public class JsonDataLoader implements DataLoader {
             throw new ExecutorException(ex);
         }
     }
+
+    @Override
+    public String getFileExtension() {
+        return ".json";
+    }
     
 }

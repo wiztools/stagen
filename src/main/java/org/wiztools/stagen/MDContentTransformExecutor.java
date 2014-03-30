@@ -25,5 +25,10 @@ public class MDContentTransformExecutor implements ContentTransformExecutor {
             throw new ExecutorException(ex);
         }
     }
+
+    @Override
+    public String getFileExtension() {
+        return ".md";
+    }
     
 }

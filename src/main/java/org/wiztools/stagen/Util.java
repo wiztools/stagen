@@ -1,5 +1,6 @@
 package org.wiztools.stagen;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.FileVisitOption;
@@ -31,6 +32,10 @@ public final class Util {
     public static String getBaseFileName(String fileName) {
         final int idx = fileName.lastIndexOf('.');
         return fileName.substring(0, idx);
+    }
+    
+    public static File resolveFile(FileResolverLambda o) {
+        return o.getFile();
     }
 
     public static void copyDirectory(final Path source, final Path target) throws IOException {
