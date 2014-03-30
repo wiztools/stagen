@@ -94,9 +94,10 @@ public class RunnerImpl implements Runner {
                 final String rendered = exeTmpl.render(data, template);
 
                 // Render and write HTML:
-                FileUtil.writeString(new File(outDir, baseFileName + Constants.HTML_EXTENSION),
-                        rendered, Charsets.UTF_8);
-                LOG.log(Level.INFO,"Successfully generated: {0}" + Constants.HTML_EXTENSION, baseFileName);
+                final File htmlFile = new File(outDir,
+                        baseFileName + Constants.HTML_EXTENSION);
+                FileUtil.writeString(htmlFile, rendered, Charsets.UTF_8);
+                LOG.log(Level.INFO,"Successfully generated: {0}", htmlFile.getName());
             }
             else {
                 LOG.log(Level.WARNING, "Template file {0} does not exist. Skipping.",
