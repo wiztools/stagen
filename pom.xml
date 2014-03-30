@@ -33,14 +33,24 @@
             <version>2.10.ga</version>
         </dependency-->
         <dependency>
-            <groupId>com.mycila.guice.extensions</groupId>
-            <artifactId>mycila-guice-jsr250</artifactId>
-            <version>3.2.ga</version>
+            <groupId>com.mycila</groupId>
+            <artifactId>mycila-guice</artifactId>
+            <version>2.10.ga</version>
         </dependency>
         <dependency>
             <groupId>org.wiztools.commons</groupId>
             <artifactId>wiztools-commons-lib</artifactId>
             <version>0.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
         </dependency>
     </dependencies>
     <properties>
