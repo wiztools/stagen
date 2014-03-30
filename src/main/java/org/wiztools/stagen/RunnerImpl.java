@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Inject;
+import org.apache.commons.io.FileUtils;
 import org.wiztools.commons.Charsets;
 import org.wiztools.commons.FileUtil;
 
@@ -42,6 +43,7 @@ public class RunnerImpl implements Runner {
                 
         // init the out directories:
         outDir.mkdirs();
+        FileUtils.cleanDirectory(outDir);
         Util.copyDirectory(staticDir.toPath(), outDir.toPath());
         LOG.info("Copied static contents.");
         
