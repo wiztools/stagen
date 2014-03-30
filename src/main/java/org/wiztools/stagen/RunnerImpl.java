@@ -39,7 +39,7 @@ public class RunnerImpl implements Runner {
         // init master data:
         final Map<String, Object> masterData = exeData.getData(
                 new File(baseDir, "master.json"));
-        LOG.info("Loaded master data from `master.json'.");
+        LOG.log(Level.INFO, "Loaded master data from `master{0}'.", exeData.getFileExtension());
                 
         // init the out directories:
         outDir.mkdirs();
@@ -51,7 +51,8 @@ public class RunnerImpl implements Runner {
         for(File contentFile: contentDir.listFiles(
                 (f)->{return f.getName().endsWith(exeContent.getFileExtension());})) {
             // Get base file name:
-            final String baseFileName = Util.getBaseFileName(contentFile.getName());
+            final String fileName = contentFile.getName();
+            final String baseFileName = Util.getBaseFileName(fileName);
             
             // Create a copy of the map for use with this instance:
             Map<String, Object> data = new HashMap<>();
@@ -62,18 +63,16 @@ public class RunnerImpl implements Runner {
                     Constants.getDataDir(baseDir), baseFileName + exeData.getFileExtension());
             if(customDataFile.exists()) {
                 data.putAll(exeData.getData(customDataFile));
-                LOG.log(Level.INFO, "Custom data loaded: {0}.json", baseFileName);
+                LOG.log(Level.INFO, "Custom data loaded: {0}", customDataFile.getName());
             }
             else {
-                LOG.log(Level.INFO, "Custom data NOT available: {0}", baseFileName);
+                LOG.log(Level.INFO, "Custom data NOT available for content: {0}", fileName);
             }
             
             // Content transform:
             String content = exeContent.transform(contentFile);
             data.put("_content", content);
-            LOG.info("Transformed content.");
-            
-            
+            LOG.log(Level.INFO, "Transformed content: {0}", fileName);
             
             // Get template:
             final File templateFile = Util.resolveFile(()->{
@@ -81,22 +80,23 @@ public class RunnerImpl implements Runner {
                 File customTemplate = new File(templateDir, baseFileName + exeTmpl.getFileExtension());
                 if(!customTemplate.exists()) {
                     // Return default template:
-                    LOG.log(Level.INFO, "Using the default template for content {0}.md", baseFileName);
-                    return new File(templateDir, "index.st");
+                    LOG.log(Level.INFO, "Using default template for content {0}", fileName);
+                    return new File(templateDir, "index" + exeTmpl.getFileExtension());
                 }
                 else {
-                    LOG.log(Level.INFO, "Using the custom template for content {0}.md", baseFileName);
+                    LOG.log(Level.INFO, "Using custom template for content {0}", fileName);
                     return customTemplate;
                 }
             });
-            if(templateFile.exists() && templateFile.canRead()) {
+            if(templateFile.exists()) {
                 final String template = FileUtil.getContentAsString(
                         templateFile, Charsets.UTF_8);
                 final String rendered = exeTmpl.render(data, template);
 
                 // Render and write HTML:
-                FileUtil.writeString(new File(outDir, baseFileName + ".html"),
+                FileUtil.writeString(new File(outDir, baseFileName + Constants.HTML_EXTENSION),
                         rendered, Charsets.UTF_8);
+                LOG.log(Level.INFO,"Successfully generated: {0}" + Constants.HTML_EXTENSION, baseFileName);
             }
             else {
                 LOG.log(Level.WARNING, "Template file {0} does not exist. Skipping.",

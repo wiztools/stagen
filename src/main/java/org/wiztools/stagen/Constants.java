@@ -7,6 +7,8 @@ import java.io.File;
  * @author subwiz
  */
 public final class Constants {
+    
+    public static final String HTML_EXTENSION = ".html";
 
     public static final File DEFAULT_DIR = new File(".");
     
