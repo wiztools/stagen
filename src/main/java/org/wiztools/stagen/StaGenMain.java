@@ -39,7 +39,8 @@ public class StaGenMain {
         }
         
         if(cmd.verbose) {
-            Logger.getLogger("org.wiztools.stagen").setLevel(Level.INFO);
+            Logger.getLogger(StaGenMain.class.getPackage().getName())
+                    .setLevel(Level.INFO);
         }
         
         Runner runner = ServiceLocator.getInstance(Runner.class);
