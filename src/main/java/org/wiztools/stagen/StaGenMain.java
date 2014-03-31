@@ -2,6 +2,7 @@ package org.wiztools.stagen;
 
 import com.sampullara.cli.Args;
 import com.sampullara.cli.Argument;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -22,6 +23,11 @@ public class StaGenMain {
                 required = false)
         private boolean verbose = false;
         
+        @Argument(value = "force",
+                alias = "f",
+                description = "Clean target directory by deleting existing content.",
+                required = false)
+        private boolean force = false;
     }
     
     public static void main(String[] args) throws ExecutorException, IOException {
@@ -41,6 +47,14 @@ public class StaGenMain {
         if(cmd.verbose) {
             Logger.getLogger(StaGenMain.class.getPackage().getName())
                     .setLevel(Level.INFO);
+        }
+        
+        if(!cmd.force) {
+            File outDir = Constants.getOutDir(Constants.DEFAULT_DIR);
+            if(!Util.isDirEmptyOrNotExists(outDir)) {
+                LOG.warning("Target directory not empty. Stopping...");
+                System.exit(2);
+            }
         }
         
         Runner runner = ServiceLocator.getInstance(Runner.class);

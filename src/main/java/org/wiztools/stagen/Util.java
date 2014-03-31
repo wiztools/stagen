@@ -37,6 +37,11 @@ public final class Util {
     public static File resolveFile(FileResolverLambda o) {
         return o.getFile();
     }
+    
+    public static boolean isDirEmptyOrNotExists(File dir) {
+        return (!dir.exists()) ||
+                (dir.isDirectory() && (dir.list().length == 0));
+    }
 
     public static void copyDirectory(final Path source, final Path target) throws IOException {
         Files.walkFileTree(source, EnumSet.of(FileVisitOption.FOLLOW_LINKS), Integer.MAX_VALUE,
