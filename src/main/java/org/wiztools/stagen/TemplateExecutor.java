@@ -1,6 +1,7 @@
 package org.wiztools.stagen;
 
 import com.google.inject.ImplementedBy;
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -9,5 +10,5 @@ import java.util.Map;
  */
 @ImplementedBy(STTemplateExecutor.class)
 public interface TemplateExecutor extends FileExtension {
-    public String render(Map<String, Object> data, String template) throws ExecutorException;
+    public String render(Map<String, Object> data, File templateFile) throws ExecutorException;
 }

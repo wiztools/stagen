@@ -89,9 +89,7 @@ public class RunnerImpl implements Runner {
                 }
             });
             if(templateFile.exists()) {
-                final String template = FileUtil.getContentAsString(
-                        templateFile, Charsets.UTF_8);
-                final String rendered = exeTmpl.render(data, template);
+                final String rendered = exeTmpl.render(data, templateFile);
 
                 // Render and write HTML:
                 final File htmlFile = new File(outDir,
