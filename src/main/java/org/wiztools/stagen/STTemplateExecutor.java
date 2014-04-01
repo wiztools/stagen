@@ -4,7 +4,6 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.util.Map;
 import org.stringtemplate.v4.ST;
-import org.stringtemplate.v4.STGroup;
 import org.stringtemplate.v4.STGroupDir;
 import org.stringtemplate.v4.STRawGroupDir;
 import org.wiztools.commons.Charsets;
