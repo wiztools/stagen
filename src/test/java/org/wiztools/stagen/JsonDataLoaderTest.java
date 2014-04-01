@@ -47,8 +47,8 @@ public class JsonDataLoaderTest {
         DataLoader instance = ServiceLocator.getInstance(DataLoader.class);
         
         Map<String, Object> expResult = new HashMap<>();
-        expResult.put("name", "Aarthi");
-        expResult.put("spouse", "Subhash");
+        expResult.put("name", "Jill");
+        expResult.put("spouse", "Jack");
         List<String> interests = new ArrayList<>();
         interests.add("love");
         interests.add("sex");
