@@ -12,7 +12,7 @@ Written in Java8.
 
 ## Running
 
-There is no official release made yet. You will have to build (requires Java 8, and Maven 3):
+There is no official release made yet. You will have to build (requires Java 8 and Maven 3):
 
     $ mvn package
 
