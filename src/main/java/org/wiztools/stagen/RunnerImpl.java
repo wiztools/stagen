@@ -2,6 +2,7 @@ package org.wiztools.stagen;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -37,8 +38,8 @@ public class RunnerImpl implements Runner {
         LOG.log(Level.INFO, "Out dir: {0}.", outDir);
         
         // init master data:
-        final Map<String, Object> masterData = exeData.getData(
-                new File(baseDir, "master.json"));
+        final Map<String, Object> masterData = Collections.unmodifiableMap(exeData.getData(
+                new File(baseDir, "master.json")));
         LOG.log(Level.INFO, "Loaded master data from `master{0}'.", exeData.getFileExtension());
                 
         // init the out directories:
