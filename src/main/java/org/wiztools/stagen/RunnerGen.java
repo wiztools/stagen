@@ -44,20 +44,20 @@ public class RunnerGen implements Runner {
         
         // Validation:
         if(!contentDir.exists() || !contentDir.isDirectory()) {
-            throw new ExecutorException("Content directory not available.");
+            throw new ValidationException("Content directory not available.");
         }
         if(!templateDir.exists() || !templateDir.isDirectory()) {
-            throw new ExecutorException("Template directory not available.");
+            throw new ValidationException("Template directory not available.");
         }
         if(!masterConfigFile.isFile()) {
-            throw new ExecutorException(
+            throw new ValidationException(
                     MessageFormat.format(
                             "Configuration file `master{0}' not available.",
                             exeData.getFileExtension()));
         }
         if(!cliCmd.force) {
             if(!Util.isDirEmptyOrNotExists(outDir)) {
-                throw new ExecutorException("Target directory not empty. Stopping...");
+                throw new ValidationException("Target directory not empty. Stopping...");
             }
         }
         

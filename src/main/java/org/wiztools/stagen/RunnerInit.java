@@ -23,7 +23,7 @@ public class RunnerInit implements Runner {
             tmpFile.delete();
         }
         else {
-            throw new ExecutorException("Directory not empty--can `init' only an empty directory.");
+            throw new ValidationException("Directory not empty--can `init' only an empty directory.");
         }
     }
     

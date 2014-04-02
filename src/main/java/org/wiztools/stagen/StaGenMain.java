@@ -82,6 +82,10 @@ public class StaGenMain {
             }
             runner.run(Constants.DEFAULT_DIR);
         }
+        catch(ValidationException ex) {
+            System.err.println(ex.getMessage());
+            System.exit(2);
+        }
         catch(ExecutorException | IOException ex) {
             if(cmd.verbose) {
                 ex.printStackTrace(System.err);
@@ -89,7 +93,7 @@ public class StaGenMain {
             else {
                 System.err.println(ex.getMessage());
             }
-            System.exit(2);
+            System.exit(3);
         }
     }
 }
