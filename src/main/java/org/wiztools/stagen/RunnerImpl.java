@@ -37,6 +37,14 @@ public class RunnerImpl implements Runner {
         LOG.log(Level.INFO, "Static dir: {0}.", staticDir);
         LOG.log(Level.INFO, "Out dir: {0}.", outDir);
         
+        // Validation:
+        if(!contentDir.exists() || !contentDir.isDirectory()) {
+            throw new ExecutorException("Content directory not available.");
+        }
+        if(!templateDir.exists() || !templateDir.isDirectory()) {
+            throw new ExecutorException("Template directory not available.");
+        }
+        
         // init master data:
         final Map<String, Object> masterData = Collections.unmodifiableMap(exeData.getData(
                 new File(baseDir, "master.json")));
@@ -45,8 +53,13 @@ public class RunnerImpl implements Runner {
         // init the out directories:
         outDir.mkdirs();
         FileUtils.cleanDirectory(outDir);
-        Util.copyDirectory(staticDir.toPath(), outDir.toPath());
-        LOG.info("Copied static contents.");
+        if(staticDir.exists() && staticDir.isDirectory()) {
+            Util.copyDirectory(staticDir.toPath(), outDir.toPath());
+            LOG.info("Copied static contents.");
+        }
+        else {
+            LOG.warning("Static directory not available.");
+        }
         
         // Iterate through the content in contents dir:
         for(File contentFile: contentDir.listFiles(
