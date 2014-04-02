@@ -17,13 +17,14 @@ import org.wiztools.commons.FileUtil;
  *
  * @author subwiz
  */
-public class RunnerImpl implements Runner {
+public class RunnerGen implements Runner {
     
-    private static final Logger LOG = Logger.getLogger(RunnerImpl.class.getName());
+    private static final Logger LOG = Logger.getLogger(RunnerGen.class.getName());
     
     @Inject private ContentTransformExecutor exeContent;
     @Inject private TemplateExecutor exeTmpl;
     @Inject private DataLoader exeData;
+    @Inject private CliCommand cliCmd;
     
     @Override
     public void run(File baseDir) throws IOException, ExecutorException {
@@ -53,6 +54,11 @@ public class RunnerImpl implements Runner {
                     MessageFormat.format(
                             "Configuration file `master{0}' not available.",
                             exeData.getFileExtension()));
+        }
+        if(!cliCmd.force) {
+            if(!Util.isDirEmptyOrNotExists(outDir)) {
+                throw new ExecutorException("Target directory not empty. Stopping...");
+            }
         }
         
         // init master data:

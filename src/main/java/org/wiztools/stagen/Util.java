@@ -38,9 +38,12 @@ public final class Util {
         return o.getFile();
     }
     
+    public static boolean isDirEmpty(File dir) {
+        return (dir.isDirectory() && (dir.list().length == 0));
+    }
+    
     public static boolean isDirEmptyOrNotExists(File dir) {
-        return (!dir.exists()) ||
-                (dir.isDirectory() && (dir.list().length == 0));
+        return (!dir.exists()) || isDirEmpty(dir);
     }
 
     public static void copyDirectory(final Path source, final Path target) throws IOException {

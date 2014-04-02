@@ -1,9 +1,9 @@
 package org.wiztools.stagen;
 
 import com.sampullara.cli.Args;
-import com.sampullara.cli.Argument;
-import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,60 +16,70 @@ public class StaGenMain {
     
     private static final Logger LOG = Logger.getLogger(StaGenMain.class.getName());
     
-    private static class CliCommand {
-        @Argument(value = "verbose",
-                alias = "v",
-                description = "Generate verbose output.",
-                required = false)
-        private boolean verbose = false;
+    private static void printHelp(PrintStream out) {
+        out.println("Usage: stagen [options] [command]");
         
-        @Argument(value = "force",
-                alias = "f",
-                description = "Clean target directory by deleting existing content.",
-                required = false)
-        private boolean force = false;
+        out.println("Where `options' are:");
+        out.println("\t-v\t-verbose\tVerbose output.");
+        out.println("\t-f\t-force  \tClean existing content in target dir before site generation.");
+        out.println("\t-h\t-help   \tPrint this help message.");
         
-        @Argument(value = "help",
-                alias = "h",
-                description = "Display usage help.",
-                required = false)
-        private boolean help = false;
+        out.println("The accepted `command' are:");
+        out.println("\tinit \tCreate a new project structure.");
+        out.println("\tgen  \tGenerate site from CWD.");
+        out.println("\tclean\tDelete target directory.");
     }
     
     public static void main(String[] args) {
         
-        CliCommand cmd = new CliCommand();
+        CliCommand cmd = ServiceLocator.getInstance(CliCommand.class);
         List<String> params = null;
         
+        String tCmd = null;
         try {
             params = Args.parse(cmd, args);
+            
+            if(cmd.help) {
+                printHelp(System.out);
+                System.exit(0);
+            }
+            
+            if(params.size() != 1) {
+                throw new IllegalArgumentException("One (only one) command is required.");
+            }
+            tCmd = params.get(0);
+            if(!Arrays.asList(new String[]{"init", "gen", "clean"}).contains(tCmd)) {
+                throw new IllegalArgumentException("Command not recognized: " + tCmd);
+            }
         }
         catch(IllegalArgumentException ex) {
             System.err.println(ex.getMessage());
-            Args.usage(cmd);
+            printHelp(System.err);
             System.exit(1);
         }
         
-        if(cmd.help) {
-            Args.usage(cmd);
-            System.exit(0);
-        }
+        final String command = tCmd;
         
         if(cmd.verbose) {
             Logger.getLogger(StaGenMain.class.getPackage().getName())
                     .setLevel(Level.INFO);
         }
         
-        if(!cmd.force) {
-            File outDir = Constants.getOutDir(Constants.DEFAULT_DIR);
-            if(!Util.isDirEmptyOrNotExists(outDir)) {
-                LOG.warning("Target directory not empty. Stopping...");
-                System.exit(2);
-            }
-        }
-        
         try {
-            Runner runner = ServiceLocator.getInstance(Runner.class);
+            final Runner runner;
+            switch(command) {
+                case "init":
+                    runner = ServiceLocator.getInstance(RunnerInit.class);
+                    break;
+                case "gen":
+                    runner = ServiceLocator.getInstance(RunnerGen.class);
+                    break;
+                case "clean":
+                    runner = ServiceLocator.getInstance(RunnerClean.class);
+                    break;
+                default:
+                    throw new ExecutorException("Unknown command: " + command);
+            }
             runner.run(Constants.DEFAULT_DIR);
         }
         catch(ExecutorException | IOException ex) {
@@ -79,7 +89,7 @@ public class StaGenMain {
             else {
                 System.err.println(ex.getMessage());
             }
-            System.exit(3);
+            System.exit(2);
         }
     }
 }

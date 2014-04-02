@@ -8,7 +8,7 @@ import java.io.IOException;
  *
  * @author subwiz
  */
-@ImplementedBy(RunnerImpl.class)
+@ImplementedBy(RunnerGen.class)
 public interface Runner {
 
     void run(File baseDir) throws IOException, ExecutorException;

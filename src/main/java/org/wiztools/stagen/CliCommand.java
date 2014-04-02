@@ -1,0 +1,26 @@
+package org.wiztools.stagen;
+
+import com.sampullara.cli.Argument;
+import javax.inject.Singleton;
+
+/**
+ *
+ * @author subwiz
+ */
+@Singleton
+public class CliCommand {
+    @Argument(value = "verbose",
+            alias = "v",
+            required = false)
+    public boolean verbose = false;
+
+    @Argument(value = "force",
+            alias = "f",
+            required = false)
+    public boolean force = false;
+
+    @Argument(value = "help",
+            alias = "h",
+            required = false)
+    public boolean help = false;
+}
