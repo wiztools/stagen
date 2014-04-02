@@ -20,14 +20,14 @@ public class StaGenMain {
         out.println("Usage: stagen [options] [command]");
         
         out.println("Where `options' are:");
-        out.println("\t-v\t-verbose\tVerbose output.");
-        out.println("\t-f\t-force  \tClean existing content in target dir before site generation.");
-        out.println("\t-h\t-help   \tPrint this help message.");
+        out.println("  -v  -verbose  Verbose output.");
+        out.println("  -f  -force    Clean existing content in target dir before site generation.");
+        out.println("  -h  -help     Print this help message.");
         
         out.println("The accepted `command' are:");
-        out.println("\tinit \tCreate a new project structure.");
-        out.println("\tgen  \tGenerate site.");
-        out.println("\tclean\tDelete target directory.");
+        out.println("  init          Create a new project structure.");
+        out.println("  gen           Generate site.");
+        out.println("  clean         Delete target directory.");
     }
     
     public static void main(String[] args) {
