@@ -28,9 +28,15 @@ public class StaGenMain {
                 description = "Clean target directory by deleting existing content.",
                 required = false)
         private boolean force = false;
+        
+        @Argument(value = "help",
+                alias = "h",
+                description = "Display usage help.",
+                required = false)
+        private boolean help = false;
     }
     
-    public static void main(String[] args) throws ExecutorException, IOException {
+    public static void main(String[] args) {
         
         CliCommand cmd = new CliCommand();
         List<String> params = null;
@@ -42,6 +48,11 @@ public class StaGenMain {
             System.err.println(ex.getMessage());
             Args.usage(cmd);
             System.exit(1);
+        }
+        
+        if(cmd.help) {
+            Args.usage(cmd);
+            System.exit(0);
         }
         
         if(cmd.verbose) {
@@ -57,7 +68,18 @@ public class StaGenMain {
             }
         }
         
-        Runner runner = ServiceLocator.getInstance(Runner.class);
-        runner.run(Constants.DEFAULT_DIR);
+        try {
+            Runner runner = ServiceLocator.getInstance(Runner.class);
+            runner.run(Constants.DEFAULT_DIR);
+        }
+        catch(ExecutorException | IOException ex) {
+            if(cmd.verbose) {
+                ex.printStackTrace(System.err);
+            }
+            else {
+                System.err.println(ex.getMessage());
+            }
+            System.exit(3);
+        }
     }
 }
