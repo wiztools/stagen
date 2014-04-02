@@ -18,9 +18,17 @@ There is no official release made yet. You will have to build (requires Java 8 a
 
 In the target directory you will find the executable Jar `stagen-1.0-SNAPSHOT-jar-with-dependencies.jar`. Create your project directory structure as explained in the [tutorial](https://github.com/wiztools/stagen/wiki/Tutorial).
 
-In the command-prompt, cd into the project directory and execute:
+In the command-prompt, to create a new template project structure (current direcory must be empty to create new project!):
 
-    $ java -jar ~/stagen-1.0-SNAPSHOT-jar-with-dependencies.jar -v -f
+    $ java -jar ~/stagen-VER-jar-with-dependencies.jar init
+
+To build the project:
+
+    $ java -jar ~/stagen-VER-jar-with-dependencies.jar gen
 
 This command will generate the site under `target` directory.
+
+To delete the `target` directory:
+
+    $ java -jar ~/stagen-VER-jar-with-dependencies.jar clean
 
