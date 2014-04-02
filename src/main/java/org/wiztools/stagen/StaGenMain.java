@@ -26,7 +26,7 @@ public class StaGenMain {
         
         out.println("The accepted `command' are:");
         out.println("\tinit \tCreate a new project structure.");
-        out.println("\tgen  \tGenerate site from CWD.");
+        out.println("\tgen  \tGenerate site.");
         out.println("\tclean\tDelete target directory.");
     }
     
