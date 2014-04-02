@@ -2,6 +2,7 @@ package org.wiztools.stagen;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +38,9 @@ public class RunnerImpl implements Runner {
         LOG.log(Level.INFO, "Static dir: {0}.", staticDir);
         LOG.log(Level.INFO, "Out dir: {0}.", outDir);
         
+        final File masterConfigFile = new File(baseDir,
+                "master" + exeData.getFileExtension());
+        
         // Validation:
         if(!contentDir.exists() || !contentDir.isDirectory()) {
             throw new ExecutorException("Content directory not available.");
@@ -44,11 +48,18 @@ public class RunnerImpl implements Runner {
         if(!templateDir.exists() || !templateDir.isDirectory()) {
             throw new ExecutorException("Template directory not available.");
         }
+        if(!masterConfigFile.isFile()) {
+            throw new ExecutorException(
+                    MessageFormat.format(
+                            "Configuration file `master{0}' not available.",
+                            exeData.getFileExtension()));
+        }
         
         // init master data:
-        final Map<String, Object> masterData = Collections.unmodifiableMap(exeData.getData(
-                new File(baseDir, "master.json")));
-        LOG.log(Level.INFO, "Loaded master data from `master{0}'.", exeData.getFileExtension());
+        final Map<String, Object> masterData = Collections.unmodifiableMap(
+                exeData.getData(masterConfigFile));
+        LOG.log(Level.INFO, "Loaded master data from `master{0}'.",
+                exeData.getFileExtension());
                 
         // init the out directories:
         outDir.mkdirs();
@@ -58,7 +69,7 @@ public class RunnerImpl implements Runner {
             LOG.info("Copied static contents.");
         }
         else {
-            LOG.warning("Static directory not available.");
+            LOG.warning("Static directory not available--no content copied.");
         }
         
         // Iterate through the content in contents dir:
