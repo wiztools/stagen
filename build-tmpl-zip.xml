@@ -1,10 +1,11 @@
 <project name="stagen-tmpl-zip" default="zip">
 
+    <property name="tmpl.dir" value="template-dir"/>
     <property name="zip.file" value="src/main/resources/stagen_tmpl/stagen_init.zip"/>
 
     <target name="zip">
-        <zip destfile="${zip.file}"
-            basedir="template-dir"/>
+        <delete dir="${tmpl.dir}/target"/>
+        <zip destfile="${zip.file}" basedir="${tmpl.dir}"/>
     </target>
     
     <target name="clean">

@@ -85,6 +85,8 @@ public class RunnerGen implements Runner {
             final String fileName = contentFile.getName();
             final String baseFileName = Util.getBaseFileName(fileName);
             
+            LOG.log(Level.INFO, "Start processing content: {0}", fileName);
+            
             // Create a copy of the map for use with this instance:
             final Map<String, Object> confMap = new HashMap<>();
             confMap.putAll(masterConfMap);

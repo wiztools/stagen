@@ -16,9 +16,9 @@ import static org.junit.Assert.*;
  *
  * @author subwiz
  */
-public class JsonDataLoaderTest {
+public class JsonConfigLoaderTest {
     
-    public JsonDataLoaderTest() {
+    public JsonConfigLoaderTest() {
     }
     
     @BeforeClass
@@ -44,7 +44,7 @@ public class JsonDataLoaderTest {
     public void testGetData() throws Exception {
         System.out.println("getData");
         File dataFile = new File("src/test/resources/master.json");
-        DataLoader instance = ServiceLocator.getInstance(DataLoader.class);
+        ConfigLoader instance = ServiceLocator.getInstance(ConfigLoader.class);
         
         Map<String, Object> expResult = new HashMap<>();
         expResult.put("name", "Jill");
@@ -55,7 +55,7 @@ public class JsonDataLoaderTest {
         interests.add("dance");
         expResult.put("interests", interests);
         
-        Map<String, Object> result = instance.getData(dataFile);
+        Map<String, Object> result = instance.getConfigMap(dataFile);
         assertEquals(expResult, result);
     }
     
