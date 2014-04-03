@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.wiztools</groupId>
     <artifactId>stagen</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.2.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <url>https://github.com/wiztools/stagen</url>
     
@@ -16,7 +16,7 @@
     
     <scm>
         <connection>scm:git:https://github.com/wiztools/stagen.git</connection>
-    </scm>
+  </scm>
     
     <build>
         <plugins>
