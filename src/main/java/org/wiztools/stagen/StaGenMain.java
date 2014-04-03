@@ -17,14 +17,14 @@ public class StaGenMain {
     private static final Logger LOG = Logger.getLogger(StaGenMain.class.getName());
     
     private static void printHelp(PrintStream out) {
-        out.println("Usage: stagen [options] [command]");
+        out.println("Usage: stagen [options] (command)");
         
         out.println("Where `options' are:");
         out.println("  -v  -verbose  Verbose output.");
         out.println("  -f  -force    Clean existing content in target dir before site generation.");
         out.println("  -h  -help     Print this help message.");
         
-        out.println("The accepted `command' are:");
+        out.println("`command' can be one of:");
         out.println("  init          Create a new project structure.");
         out.println("  gen           Generate site.");
         out.println("  clean         Delete target directory.");
