@@ -10,5 +10,5 @@ import java.util.Map;
  */
 @ImplementedBy(STTemplateExecutor.class)
 public interface TemplateExecutor extends FileExtension {
-    public String render(Map<String, Object> data, File templateFile) throws ExecutorException;
+    public String render(Map<String, Object> config, File templateFile) throws ExecutorException;
 }

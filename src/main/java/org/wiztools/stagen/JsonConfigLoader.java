@@ -10,10 +10,10 @@ import org.codehaus.jackson.type.TypeReference;
  *
  * @author subwiz
  */
-public class JsonDataLoader implements DataLoader {
+public class JsonConfigLoader implements ConfigLoader {
 
     @Override
-    public Map<String, Object> getData(File dataFile) throws ExecutorException {
+    public Map<String, Object> getConfigMap(File dataFile) throws ExecutorException {
         try {
             ObjectMapper mapper = new ObjectMapper();
             Map<String, Object> out = mapper.readValue(dataFile,

@@ -23,7 +23,7 @@ public class RunnerGen implements Runner {
     
     @Inject private ContentTransformExecutor exeContent;
     @Inject private TemplateExecutor exeTmpl;
-    @Inject private DataLoader exeData;
+    @Inject private ConfigLoader exeConfig;
     @Inject private CliCommand cliCmd;
     
     @Override
@@ -40,7 +40,7 @@ public class RunnerGen implements Runner {
         LOG.log(Level.INFO, "Out dir: {0}.", outDir);
         
         final File masterConfigFile = new File(baseDir,
-                "master" + exeData.getFileExtension());
+                "master" + exeConfig.getFileExtension());
         
         // Validation:
         if(!contentDir.exists() || !contentDir.isDirectory()) {
@@ -53,7 +53,7 @@ public class RunnerGen implements Runner {
             throw new ValidationException(
                     MessageFormat.format(
                             "Configuration file `master{0}' not available.",
-                            exeData.getFileExtension()));
+                            exeConfig.getFileExtension()));
         }
         if(!cliCmd.force) {
             if(!Util.isDirEmptyOrNotExists(outDir)) {
@@ -61,11 +61,11 @@ public class RunnerGen implements Runner {
             }
         }
         
-        // init master data:
-        final Map<String, Object> masterData = Collections.unmodifiableMap(
-                exeData.getData(masterConfigFile));
-        LOG.log(Level.INFO, "Loaded master data from `master{0}'.",
-                exeData.getFileExtension());
+        // init master config:
+        final Map<String, Object> masterConfMap = Collections.unmodifiableMap(
+                exeConfig.getConfigMap(masterConfigFile));
+        LOG.log(Level.INFO, "Loaded master config from `master{0}'.",
+                exeConfig.getFileExtension());
                 
         // init the out directories:
         outDir.mkdirs();
@@ -86,29 +86,33 @@ public class RunnerGen implements Runner {
             final String baseFileName = Util.getBaseFileName(fileName);
             
             // Create a copy of the map for use with this instance:
-            Map<String, Object> data = new HashMap<>();
-            data.putAll(masterData);
+            final Map<String, Object> confMap = new HashMap<>();
+            confMap.putAll(masterConfMap);
             
-            // Custom data:
-            final File customDataFile = new File(
-                    Constants.getDataDir(baseDir), baseFileName + exeData.getFileExtension());
-            if(customDataFile.exists()) {
-                data.putAll(exeData.getData(customDataFile));
-                LOG.log(Level.INFO, "Custom data loaded: {0}", customDataFile.getName());
+            // Custom config:
+            final File customConfFile = new File(
+                    Constants.getConfigDir(baseDir),
+                    baseFileName + exeConfig.getFileExtension());
+            if(customConfFile.exists()) {
+                confMap.putAll(exeConfig.getConfigMap(customConfFile));
+                LOG.log(Level.INFO, "Custom config loaded: {0}",
+                        customConfFile.getName());
             }
             else {
-                LOG.log(Level.INFO, "Custom data NOT available for content: {0}", fileName);
+                LOG.log(Level.INFO, "Custom config NOT available for content: {0}",
+                        fileName);
             }
             
             // Content transform:
             String content = exeContent.transform(contentFile);
-            data.put("_content", content);
+            confMap.put("_content", content);
             LOG.log(Level.INFO, "Transformed content: {0}", fileName);
             
             // Get template:
             final File templateFile = Util.resolveFile(()->{
                 // Page specific template available?
-                File customTemplate = new File(templateDir, baseFileName + exeTmpl.getFileExtension());
+                File customTemplate = new File(templateDir,
+                        baseFileName + exeTmpl.getFileExtension());
                 if(!customTemplate.exists()) {
                     // Return default template:
                     LOG.log(Level.INFO, "Using default template for content {0}", fileName);
@@ -120,7 +124,7 @@ public class RunnerGen implements Runner {
                 }
             });
             if(templateFile.exists()) {
-                final String rendered = exeTmpl.render(data, templateFile);
+                final String rendered = exeTmpl.render(confMap, templateFile);
 
                 // Render and write HTML:
                 final File htmlFile = new File(outDir,

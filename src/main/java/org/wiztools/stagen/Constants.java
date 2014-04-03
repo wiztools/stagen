@@ -14,7 +14,7 @@ public final class Constants {
     
     private static final String CONTENT_DIR = "content";
     private static final String TEMPLATE_DIR = "template";
-    private static final String DATA_DIR = "data";
+    private static final String CONFIG_DIR = "config";
     private static final String STATIC_DIR = "static";
     private static final String OUT_DIR = "target";
     
@@ -27,8 +27,8 @@ public final class Constants {
         return new File(baseDir, TEMPLATE_DIR);
     }
     
-    public static File getDataDir(File baseDir) {
-        return new File(baseDir, DATA_DIR);
+    public static File getConfigDir(File baseDir) {
+        return new File(baseDir, CONFIG_DIR);
     }
     
     public static File getStaticDir(File baseDir) {

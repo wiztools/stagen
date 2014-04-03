@@ -18,7 +18,7 @@ public class STTemplateExecutor implements TemplateExecutor {
     private static final char delimiterStopChar = '$';
 
     @Override
-    public String render(Map<String, Object> data, File templateFile) throws ExecutorException {
+    public String render(Map<String, Object> config, File templateFile) throws ExecutorException {
         try {
             final File tmplDir = templateFile.getParentFile();
             final String tmplName = Util.getBaseFileName(templateFile.getName());
@@ -31,7 +31,7 @@ public class STTemplateExecutor implements TemplateExecutor {
             ST st = stg.getInstanceOf(tmplName);
             
             // Populate data:
-            data.entrySet().stream().forEach((e) -> {
+            config.entrySet().stream().forEach((e) -> {
                 st.add(e.getKey(), e.getValue());
             });
             
