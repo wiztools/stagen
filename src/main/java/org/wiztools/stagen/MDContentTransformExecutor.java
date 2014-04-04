@@ -1,11 +1,8 @@
 package org.wiztools.stagen;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.StringWriter;
-import org.tautua.markdownpapers.Markdown;
-import org.tautua.markdownpapers.parser.ParseException;
+import java.io.IOException;
+import org.markdown4j.Markdown4jProcessor;
 
 /**
  *
@@ -15,13 +12,12 @@ public class MDContentTransformExecutor implements ContentTransformExecutor {
 
     @Override
     public String transform(File file) throws ExecutorException {
+        
         try {
-            Markdown md = new Markdown();
-            StringWriter sw = new StringWriter();
-            md.transform(new FileReader(file), sw);
-            return sw.toString();
+            final String out = new Markdown4jProcessor().process(file);
+            return out;
         }
-        catch(FileNotFoundException | ParseException ex) {
+        catch(IOException ex) {
             throw new ExecutorException(ex);
         }
     }
