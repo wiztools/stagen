@@ -21,6 +21,7 @@ public class RunnerRun implements Runner {
     
     @Inject private RunnerClean clean;
     @Inject private RunnerGen gen;
+    @Inject private CliCommand cmd;
 
     @Override
     public void run(final File baseDir) throws IOException, ExecutorException {
@@ -45,7 +46,7 @@ public class RunnerRun implements Runner {
         
         // Start server:
         try {
-            Server server = new Server(Constants.DEFAULT_PORT);
+            Server server = new Server(cmd.port);
             
             ResourceHandler rh = new ResourceHandler();
             rh.setDirectoriesListed(true);

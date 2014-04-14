@@ -9,6 +9,11 @@ import javax.inject.Singleton;
  */
 @Singleton
 public class CliCommand {
+    @Argument(value = "port",
+            alias = "p",
+            required = false)
+    public Integer port = Constants.DEFAULT_PORT;
+    
     @Argument(value = "verbose",
             alias = "v",
             required = false)

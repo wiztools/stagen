@@ -22,12 +22,13 @@ public class StaGenMain {
         out.println("Where `options' are:");
         out.println("  -v  -verbose  Verbose output.");
         out.println("  -f  -force    Clean existing content in target dir before site generation.");
+        out.println("  -p  -port     Port to use for `run' command.");
         out.println("  -h  -help     Print this help message.");
         
         out.println("`command' can be one of:");
         out.println("  init          Create a new project structure.");
         out.println("  gen           Generate site.");
-        out.println("  run           Run embedded server at port 20202.");
+        out.println("  run           Run embedded server at default port " + Constants.DEFAULT_PORT + ".");
         out.println("  clean         Delete target directory.");
     }
     
