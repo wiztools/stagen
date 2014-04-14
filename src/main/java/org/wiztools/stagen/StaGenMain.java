@@ -27,6 +27,7 @@ public class StaGenMain {
         out.println("`command' can be one of:");
         out.println("  init          Create a new project structure.");
         out.println("  gen           Generate site.");
+        out.println("  run           Run embedded server at port 20202.");
         out.println("  clean         Delete target directory.");
     }
     
@@ -48,7 +49,7 @@ public class StaGenMain {
                 throw new IllegalArgumentException("One (only one) command is required.");
             }
             tCmd = params.get(0);
-            if(!Arrays.asList(new String[]{"init", "gen", "clean"}).contains(tCmd)) {
+            if(!Arrays.asList(new String[]{"init", "gen", "run", "clean"}).contains(tCmd)) {
                 throw new IllegalArgumentException("Command not recognized: " + tCmd);
             }
         }
@@ -73,6 +74,9 @@ public class StaGenMain {
                     break;
                 case "gen":
                     runner = ServiceLocator.getInstance(RunnerGen.class);
+                    break;
+                case "run":
+                    runner = ServiceLocator.getInstance(RunnerRun.class);
                     break;
                 case "clean":
                     runner = ServiceLocator.getInstance(RunnerClean.class);

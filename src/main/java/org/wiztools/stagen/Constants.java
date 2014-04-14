@@ -8,6 +8,8 @@ import java.io.File;
  */
 public final class Constants {
     
+    public static final int DEFAULT_PORT = 20202;
+    
     public static final String HTML_EXTENSION = ".html";
 
     public static final File DEFAULT_DIR = new File(".");
