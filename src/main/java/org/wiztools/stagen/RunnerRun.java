@@ -6,6 +6,8 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.nio.file.WatchService;
 import static java.nio.file.StandardWatchEventKinds.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Inject;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
@@ -18,6 +20,8 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
  * @author subwiz
  */
 public class RunnerRun implements Runner {
+    
+    private static final Logger LOG = Logger.getLogger(RunnerRun.class.getName());
     
     @Inject private RunnerClean clean;
     @Inject private RunnerGen gen;
@@ -46,6 +50,7 @@ public class RunnerRun implements Runner {
         
         // Start server:
         try {
+            LOG.log(Level.INFO, "Starting HTTP server at port: {0}", cmd.port);
             Server server = new Server(cmd.port);
             
             ResourceHandler rh = new ResourceHandler();
