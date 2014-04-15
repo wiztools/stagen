@@ -10,6 +10,11 @@ public final class Constants {
     
     public static final int DEFAULT_PORT = 20202;
     
+    // File name without extension:
+    public static final String MASTER_CONFIG = "_master";
+    // File name without extension:
+    public static final String DEFAULT_TMPL = "_default";
+    
     public static final String HTML_EXTENSION = ".html";
 
     public static final File DEFAULT_DIR = new File(".");

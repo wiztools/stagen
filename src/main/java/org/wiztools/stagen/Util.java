@@ -33,15 +33,15 @@ public final class Util {
         final int idx = fileName.lastIndexOf('.');
         return fileName.substring(0, idx);
     }
-    
+
     public static File resolveFile(FileResolverLambda o) {
         return o.getFile();
     }
-    
+
     public static boolean isDirEmpty(File dir) {
         return (dir.isDirectory() && (dir.list().length == 0));
     }
-    
+
     public static boolean isDirEmptyOrNotExists(File dir) {
         return (!dir.exists()) || isDirEmpty(dir);
     }

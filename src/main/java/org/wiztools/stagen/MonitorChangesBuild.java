@@ -39,28 +39,26 @@ public class MonitorChangesBuild implements Runnable {
                 return;
             }
             
-            for (WatchEvent<?> event: key.pollEvents()) {
+            key.pollEvents().stream().forEach((event) -> {
                 WatchEvent.Kind<?> kind = event.kind();
-                if (kind == OVERFLOW) {
-                    continue;
+                if (!(kind == OVERFLOW)) {
+                    WatchEvent<Path> ev = (WatchEvent<Path>)event;
+                    
+                    Path filename = ev.context();
+                    LOG.info(MessageFormat.format("Detected change: {0}", filename));
+                    
+                    // Generate site:
+                    RunnerGen gen = ServiceLocator.getInstance(RunnerGen.class);
+                    RunnerClean clean = ServiceLocator.getInstance(RunnerClean.class);
+                    try {
+                        clean.run(baseDir);
+                        gen.run(baseDir);
+                    }
+                    catch(ExecutorException | IOException ex) {
+                        LOG.log(Level.WARNING, null, ex);
+                    }
                 }
-                
-                WatchEvent<Path> ev = (WatchEvent<Path>)event;
-                
-                Path filename = ev.context();
-                LOG.info(MessageFormat.format("Detected change: {0}", filename));
-                
-                // Generate site:
-                RunnerGen gen = ServiceLocator.getInstance(RunnerGen.class);
-                RunnerClean clean = ServiceLocator.getInstance(RunnerClean.class);
-                try {
-                    clean.run(baseDir);
-                    gen.run(baseDir);
-                }
-                catch(ExecutorException | IOException ex) {
-                    LOG.log(Level.WARNING, null, ex);
-                }
-            }
+            });
             
             boolean valid = key.reset();
             if (!valid) {

@@ -25,12 +25,14 @@ public class RunnerGen implements Runner {
     @Inject private TemplateExecutor exeTmpl;
     @Inject private ConfigLoader exeConfig;
     @Inject private CliCommand cliCmd;
+    @Inject private ValidatorUtil validator;
     
     @Override
     public void run(File baseDir) throws IOException, ExecutorException {
         // init all the directories:
         final File contentDir = Constants.getContentDir(baseDir);
         final File templateDir = Constants.getTemplateDir(baseDir);
+        final File configDir = Constants.getConfigDir(baseDir);
         final File staticDir = Constants.getStaticDir(baseDir);
         final File outDir = Constants.getOutDir(baseDir);
         
@@ -39,27 +41,11 @@ public class RunnerGen implements Runner {
         LOG.log(Level.INFO, "Static dir: {0}.", staticDir);
         LOG.log(Level.INFO, "Out dir: {0}.", outDir);
         
-        final File masterConfigFile = new File(baseDir,
-                "master" + exeConfig.getFileExtension());
+        final File masterConfigFile = new File(configDir,
+                Constants.MASTER_CONFIG + exeConfig.getFileExtension());
         
         // Validation:
-        if(!contentDir.exists() || !contentDir.isDirectory()) {
-            throw new ValidationException("Content directory not available.");
-        }
-        if(!templateDir.exists() || !templateDir.isDirectory()) {
-            throw new ValidationException("Template directory not available.");
-        }
-        if(!masterConfigFile.isFile()) {
-            throw new ValidationException(
-                    MessageFormat.format(
-                            "Configuration file `master{0}' not available.",
-                            exeConfig.getFileExtension()));
-        }
-        if(!cliCmd.force) {
-            if(!Util.isDirEmptyOrNotExists(outDir)) {
-                throw new ValidationException("Target directory not empty. Stopping...");
-            }
-        }
+        validator.validate(masterConfigFile, contentDir, templateDir, outDir);
         
         // init master config:
         final Map<String, Object> masterConfMap = Collections.unmodifiableMap(
@@ -93,7 +79,7 @@ public class RunnerGen implements Runner {
             
             // Custom config:
             final File customConfFile = new File(
-                    Constants.getConfigDir(baseDir),
+                    configDir,
                     baseFileName + exeConfig.getFileExtension());
             if(customConfFile.exists()) {
                 confMap.putAll(exeConfig.getConfigMap(customConfFile));
@@ -118,7 +104,8 @@ public class RunnerGen implements Runner {
                 if(!customTemplate.exists()) {
                     // Return default template:
                     LOG.log(Level.INFO, "Using default template for content {0}", fileName);
-                    return new File(templateDir, "index" + exeTmpl.getFileExtension());
+                    return new File(templateDir,
+                            Constants.DEFAULT_TMPL + exeTmpl.getFileExtension());
                 }
                 else {
                     LOG.log(Level.INFO, "Using custom template for content {0}", fileName);
