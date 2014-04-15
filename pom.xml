@@ -105,7 +105,7 @@
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-servlet</artifactId>
+            <artifactId>jetty-server</artifactId>
             <version>9.1.4.v20140401</version>
         </dependency>
     </dependencies>
