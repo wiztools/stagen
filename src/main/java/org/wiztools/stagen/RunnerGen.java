@@ -50,8 +50,8 @@ public class RunnerGen implements Runner {
         // init master config:
         final Map<String, Object> masterConfMap = Collections.unmodifiableMap(
                 exeConfig.getConfigMap(masterConfigFile));
-        LOG.log(Level.INFO, "Loaded master config from `master{0}'.",
-                exeConfig.getFileExtension());
+        LOG.log(Level.INFO, "Loaded master config from `{0}'.",
+                masterConfigFile.getName());
                 
         // init the out directories:
         outDir.mkdirs();
