@@ -3,9 +3,13 @@ package org.wiztools.stagen;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileSystems;
+import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.SimpleFileVisitor;
 import java.nio.file.WatchService;
 import static java.nio.file.StandardWatchEventKinds.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Inject;
@@ -26,20 +30,29 @@ public class RunnerRun implements Runner {
     @Inject private RunnerClean clean;
     @Inject private RunnerGen gen;
     @Inject private CliCommand cmd;
+    
+    private void register(final WatchService watcher, Path ... dirs) throws IOException {
+        for(Path dir: dirs) {
+            Files.walkFileTree(dir, new SimpleFileVisitor<Path>(){
+                @Override
+                public FileVisitResult preVisitDirectory(Path d, BasicFileAttributes attrs) throws IOException {
+                    d.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+        }
+    }
 
     @Override
     public void run(final File baseDir) throws IOException, ExecutorException {
         // Start monitoring service:
-        WatchService watcher = FileSystems.getDefault().newWatchService();
         Path contentDir = Constants.getContentDir(baseDir).toPath();
         Path tmplDir = Constants.getTemplateDir(baseDir).toPath();
         Path configDir = Constants.getConfigDir(baseDir).toPath();
         Path staticDir = Constants.getStaticDir(baseDir).toPath();
         
-        contentDir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
-        tmplDir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
-        configDir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
-        staticDir.register(watcher, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
+        final WatchService watcher = FileSystems.getDefault().newWatchService();
+        register(watcher, contentDir, tmplDir, configDir, staticDir);
         
         Thread t = new Thread(new MonitorChangesBuild(baseDir, watcher));
         t.start();
