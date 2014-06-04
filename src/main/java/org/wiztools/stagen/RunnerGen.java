@@ -49,14 +49,14 @@ public class RunnerGen implements Runner {
         // init master config:
         final Map<String, Object> masterConfMap = Collections.unmodifiableMap(
                 exeConfig.getConfigMap(masterConfigFile));
-        LOG.log(Level.INFO, "Loaded master config from `{0}'.",
+        LOG.log(Level.INFO, "Loaded master config from `{0}`.",
                 masterConfigFile.getName());
                 
         // init the out directories:
         outDir.mkdirs();
         FileUtils.cleanDirectory(outDir);
         if(staticDir.exists() && staticDir.isDirectory()) {
-            Util.copyDirectory(staticDir.toPath(), outDir.toPath());
+            FileUtils.copyDirectory(staticDir, outDir);
             LOG.info("Copied static contents.");
         }
         else {
