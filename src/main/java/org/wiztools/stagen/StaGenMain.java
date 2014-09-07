@@ -1,6 +1,7 @@
 package org.wiztools.stagen;
 
 import com.sampullara.cli.Args;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Arrays;
@@ -32,60 +33,81 @@ public class StaGenMain {
         out.println("  clean         Delete target directory.");
     }
     
+    private static void runCommand(String command, List<String> params)
+            throws IOException, ExecutorException {
+        if("init".equals(command)) {
+            File f = null;
+            if(params.size() == 1) {
+                String folderName = params.get(1);
+                f = new File(folderName);
+            }
+            else if(params.size() > 1) {
+                throw new IllegalArgumentException("init command can have only one parameter.");
+            }
+            else {
+                f = Constants.DEFAULT_DIR;
+            }
+            final Runner runner = ServiceLocator.getInstance(RunnerInit.class);
+            runner.run(f);
+        }
+        else if("clean".equals(command)) {
+            final Runner runner = ServiceLocator.getInstance(RunnerClean.class);
+            runner.run(Constants.DEFAULT_DIR);
+            
+            // Clean can be combined with other commands:
+            if(!params.isEmpty()) {
+                String newCommand = params.get(0);
+                params.remove(0);
+                runCommand(newCommand, params);
+            }
+        }
+        else if("gen".equals(command)) {
+            final Runner runner = ServiceLocator.getInstance(RunnerGen.class);
+            runner.run(Constants.DEFAULT_DIR);
+        }
+        else if("run".equals("command")) {
+            final Runner runner = ServiceLocator.getInstance(RunnerRun.class);
+            runner.run(Constants.DEFAULT_DIR);
+        }
+        else {
+            throw new ExecutorException("Unknown command: " + command);
+        }
+    }
+    
     public static void main(String[] args) {
         
         CliCommand cmd = ServiceLocator.getInstance(CliCommand.class);
-        List<String> params = null;
         
-        String tCmd = null;
         try {
-            params = Args.parse(cmd, args);
+            final List<String> params = Args.parse(cmd, args);
             
             if(cmd.help) {
                 printHelp(System.out);
                 System.exit(0);
             }
             
-            if(params.size() != 1) {
-                throw new IllegalArgumentException("One (only one) command is required.");
+            if(cmd.verbose) {
+                Logger.getLogger(StaGenMain.class.getPackage().getName())
+                        .setLevel(Level.INFO);
             }
-            tCmd = params.get(0);
-            if(!Arrays.asList(new String[]{"init", "gen", "run", "clean"}).contains(tCmd)) {
-                throw new IllegalArgumentException("Command not recognized: " + tCmd);
+            
+            if(params.isEmpty()) {
+                throw new IllegalArgumentException("Command parameter is missing.");
             }
+            
+            final String command = params.get(0);
+            if(!Arrays.asList(new String[]{"init", "gen", "run", "clean"}).contains(command)) {
+                throw new IllegalArgumentException("Command not recognized: " + command);
+            }
+            
+            // Run the command(s):
+            params.remove(0);
+            runCommand(command, params);
         }
         catch(IllegalArgumentException ex) {
             System.err.println(ex.getMessage());
             printHelp(System.err);
             System.exit(1);
-        }
-        
-        final String command = tCmd;
-        
-        if(cmd.verbose) {
-            Logger.getLogger(StaGenMain.class.getPackage().getName())
-                    .setLevel(Level.INFO);
-        }
-        
-        try {
-            final Runner runner;
-            switch(command) {
-                case "init":
-                    runner = ServiceLocator.getInstance(RunnerInit.class);
-                    break;
-                case "gen":
-                    runner = ServiceLocator.getInstance(RunnerGen.class);
-                    break;
-                case "run":
-                    runner = ServiceLocator.getInstance(RunnerRun.class);
-                    break;
-                case "clean":
-                    runner = ServiceLocator.getInstance(RunnerClean.class);
-                    break;
-                default:
-                    throw new ExecutorException("Unknown command: " + command);
-            }
-            runner.run(Constants.DEFAULT_DIR);
         }
         catch(ValidationException ex) {
             System.err.println(ex.getMessage());
