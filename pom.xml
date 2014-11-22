@@ -163,7 +163,7 @@
         <dependency>
             <groupId>org.wiztools.commons</groupId>
             <artifactId>wiztools-commons-lib</artifactId>
-            <version>0.3.0</version>
+            <version>0.4.1</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
@@ -183,7 +183,7 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
-            <version>9.2.1.v20140609</version>
+            <version>9.2.5.v20141112</version>
         </dependency>
     </dependencies>
 </project>
