@@ -20,7 +20,15 @@ This static site generator was developed for maintaining a site like [WizTools.o
 
 Read the [tutorial](https://github.com/wiztools/stagen/wiki/Tutorial) to get started.
 
-## Build
+## Install
+
+Prerequisite: [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
+
+Download the `.zip` or `.tgz` package from our [releases section](https://github.com/wiztools/stagen/releases). Extract the content, and add to your `PATH` variable the `bin` folder. Once this is done, you will be able to execute stagen using the command `stagen`.
+
+## From the source
+
+### Build
 
 To build (requires Java 8 and Maven 3, or above versions):
 
@@ -28,7 +36,7 @@ To build (requires Java 8 and Maven 3, or above versions):
 
 In the `target` directory you will find the executable jar `stagen-VER-full.jar`.
 
-## Running
+### Running
 
 Encourage first-time visitors to read the [tutorial](https://github.com/wiztools/stagen/wiki/Tutorial). This will help in understanding the conventions used by StaGen.
 
@@ -55,7 +63,3 @@ To delete the `target` directory:
 To view cli options:
 
     $ java -jar ~/stagen-VER-full.jar -h
-
-## Install
-
-Download the `.zip` or `.tgz` package from our [releases section](https://github.com/wiztools/stagen/releases). Extract the content, and add to your `PATH` variable the `bin` folder. Once this is done, you will be able to execute stagen using the command `stagen`.
