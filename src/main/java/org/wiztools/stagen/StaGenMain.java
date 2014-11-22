@@ -38,7 +38,7 @@ public class StaGenMain {
         if("init".equals(command)) {
             File f = null;
             if(params.size() == 1) {
-                String folderName = params.get(1);
+                String folderName = params.get(0);
                 f = new File(folderName);
             }
             else if(params.size() > 1) {
@@ -65,7 +65,7 @@ public class StaGenMain {
             final Runner runner = ServiceLocator.getInstance(RunnerGen.class);
             runner.run(Constants.DEFAULT_DIR);
         }
-        else if("run".equals("command")) {
+        else if("run".equals(command)) {
             final Runner runner = ServiceLocator.getInstance(RunnerRun.class);
             runner.run(Constants.DEFAULT_DIR);
         }

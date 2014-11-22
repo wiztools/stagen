@@ -15,6 +15,15 @@ public class RunnerInit implements Runner {
 
     @Override
     public void run(File baseDir) throws IOException, ExecutorException {
+        // Create if no dir available:
+        if(!baseDir.exists()) {
+            boolean res = baseDir.mkdirs();
+            if(!res) {
+                throw new ExecutorException("Dir creation failed: " + baseDir);
+            }
+        }
+        
+        // Init project if empty:
         if(Util.isDirEmpty(baseDir)) {
             File tmpFile = File.createTempFile("stagen_template_", ".zip");
             InputStream is = getClass().getResourceAsStream("/stagen_tmpl/stagen_init.zip");
