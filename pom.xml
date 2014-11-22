@@ -18,8 +18,15 @@
         <connection>scm:git:https://github.com/wiztools/stagen.git</connection>
         <developerConnection>scm:git:https://github.com/wiztools/stagen.git</developerConnection>
         <url>https://github.com/wiztools/stagen</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <assembleDirectory>${project.build.directory}/${project.artifactId}-${project.version}</assembleDirectory>
+    </properties>
     
     <build>
         <plugins>
@@ -46,6 +53,69 @@
                         <phase>package</phase>
                         <goals>
                             <goal>attached</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>appassembler-maven-plugin</artifactId>
+                <version>1.8.1</version>
+                <configuration>
+                    <repositoryLayout>flat</repositoryLayout>
+                    <repositoryName>lib</repositoryName>
+                    <showConsoleWindow>true</showConsoleWindow>
+                    <binFileExtensions>
+                        <unix></unix>
+                        <windows>.bat</windows>
+                    </binFileExtensions>
+                    <extraJvmArguments>-Xms128m</extraJvmArguments>
+                    <platforms>
+                        <platform>windows</platform>
+                        <platform>unix</platform>
+                    </platforms>
+                    <programs>
+                        <program>
+                            <mainClass>org.wiztools.stagen.StaGenMain</mainClass>
+                            <id>stagen</id>
+                            <platforms>
+                                <platform>windows</platform>
+                                <platform>unix</platform>
+                            </platforms>
+                        </program>
+                    </programs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <id>pack</id>
+                        <goals>
+                            <goal>assemble</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <configuration>
+                            <target name="runbuild">
+                                <echo>Assembling to: ${assembleDirectory}</echo>
+                                <zip destfile="${project.build.directory}/${project.artifactId}-${project.version}.zip"
+                                    basedir="${project.build.directory}"
+                                    includes="${project.artifactId}-${project.version}/**/*"/>
+                                <tar destfile="${project.build.directory}/${project.artifactId}-${project.version}.tgz"
+                                    basedir="${project.build.directory}"
+                                    includes="${project.artifactId}-${project.version}/**/*"
+                                    compression="gzip"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -116,9 +186,4 @@
             <version>9.2.1.v20140609</version>
         </dependency>
     </dependencies>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
 </project>
