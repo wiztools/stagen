@@ -26,7 +26,7 @@ To build (requires Java 8 and Maven 3, or above versions):
 
     $ mvn package
 
-In the target directory you will find the executable Jar `stagen-VER-full.jar`.
+In the `target` directory you will find the executable jar `stagen-VER-full.jar`.
 
 ## Running
 
@@ -56,3 +56,6 @@ To view cli options:
 
     $ java -jar ~/stagen-VER-full.jar -h
 
+## Install
+
+Download the `.zip` or `.tgz` package from our [releases section](https://github.com/wiztools/stagen/releases). Extract the content, and add to your `PATH` variable the `bin` folder. Once this is done, you will be able to execute stagen using the command `stagen`.
