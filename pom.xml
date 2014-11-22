@@ -16,7 +16,7 @@
     
     <scm>
         <connection>scm:git:https://github.com/wiztools/stagen.git</connection>
-        <developerConnection>scm:git:https://github.com/wiztools/stagen.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:wiztools/stagen.git</developerConnection>
         <url>https://github.com/wiztools/stagen</url>
         <tag>HEAD</tag>
     </scm>
