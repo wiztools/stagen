@@ -42,10 +42,8 @@ public class RunnerRun implements Runner {
             });
         }
     }
-
-    @Override
-    public void run(final File baseDir) throws IOException, ExecutorException {
-        // Start monitoring service:
+    
+    private void startMonitoring(final File baseDir) throws IOException {
         Path contentDir = Constants.getContentDir(baseDir).toPath();
         Path tmplDir = Constants.getTemplateDir(baseDir).toPath();
         Path configDir = Constants.getConfigDir(baseDir).toPath();
@@ -56,10 +54,16 @@ public class RunnerRun implements Runner {
         
         Thread t = new Thread(new MonitorChangesBuild(baseDir, watcher));
         t.start();
-        
+    }
+
+    @Override
+    public void run(final File baseDir) throws IOException, ExecutorException {
         // Generate site:
         clean.run(baseDir);
         gen.run(baseDir);
+        
+        // Start monitoring service:
+        startMonitoring(baseDir);
         
         // Start server:
         try {
