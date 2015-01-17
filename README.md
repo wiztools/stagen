@@ -34,7 +34,7 @@ To build (requires Java 8 and Maven 3, or above versions):
 
     $ mvn package
 
-In the `target` directory you will find the executable jar `stagen-VER-full.jar`.
+In the `target` directory you will find the build artifacts.
 
 ### Running
 
@@ -42,24 +42,24 @@ Encourage first-time visitors to read the [tutorial](https://github.com/wiztools
 
 In the command-prompt, to create a new template project structure (current direcory must be empty to create new project!):
 
-    $ java -jar ~/stagen-VER-full.jar init
+    $ stagen init
 
 To build the project:
 
-    $ java -jar ~/stagen-VER-full.jar gen
+    $ stagen gen
 
 This command will generate the site under `target` directory.
 
 To run the project using the embedded Jetty server:
 
-	$ java -jar ~/stagen-VER-full.jar run
+	$ stagen run
 
 The `run` command also monitors project directory for changes, and builds automatically when a change is detected. Press `Ctrl+C` to quit.
 
 To delete the `target` directory:
 
-    $ java -jar ~/stagen-VER-full.jar clean
+    $ stagen clean
 
 To view cli options:
 
-    $ java -jar ~/stagen-VER-full.jar -h
+    $ stagen -h
