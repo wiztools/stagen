@@ -30,11 +30,11 @@ Download the `.zip` or `.tgz` package from our [releases section](https://github
 
 ### Build
 
-To build (requires Java 8 and Maven 3, or above versions):
+To build (requires Java 8, or above versions):
 
-    $ mvn package
+    $ ./gradlew build
 
-In the `target` directory you will find the build artifacts.
+In the `build` directory you will find the build artifacts.
 
 ### Running
 
