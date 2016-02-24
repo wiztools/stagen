@@ -1,0 +1,50 @@
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath 'ca.cutterslade.gradle:gradle-dependency-analyze:1.0.3'
+  }
+}
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'ca.cutterslade.analyze'
+apply plugin: 'jacoco'
+
+analyzeClassesDependencies {
+  justWarn = true
+}
+analyzeTestClassesDependencies {
+  justWarn = true
+}
+
+// Application plugin config:
+mainClassName = 'org.wiztools.stagen.StaGenMain'
+applicationName = 'stagen'
+applicationDefaultJvmArgs = ['-Xms128m', '-Xmx512m']
+
+allprojects {
+  tasks.withType(JavaCompile) {
+    options.compilerArgs << '-Xlint:deprecation' << '-Xlint:unchecked'
+  }
+}
+
+repositories {
+  mavenLocal()
+  mavenCentral()
+  maven { url "https://jitpack.io" }
+}
+
+dependencies {
+  compile 'org.antlr:ST4:4.0.8',
+    'org.commonjava.googlecode.markdown4j:markdown4j:2.2-cj-1.0',
+    'com.google.inject:guice:3.0',
+    'com.mycila.guice.extensions:mycila-guice-jsr250:3.5.ga',
+    'org.wiztools.commons:wiztools-commons-lib:0.4.1',
+    'org.codehaus.jackson:jackson-mapper-asl:1.9.13',
+    'commons-io:commons-io:2.4',
+    'com.google.code.cli-parser:cli:7',
+    'org.eclipse.jetty:jetty-server:9.2.5.v20141112'
+  testCompile 'junit:junit:4.+'
+}
