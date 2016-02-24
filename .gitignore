@@ -1,3 +1,4 @@
 template-dir/target
 .gradle
 build
+/.nb-gradle/
