@@ -10,10 +10,6 @@ StaGen is written in Java 8, and supports:
 
 Read the [tutorial](https://github.com/wiztools/stagen/wiki/Tutorial).
 
-### Extensible
-
-At the core of StaGen engine, Guice is used for wiring the implementations with the interfaces. StaGen can be easily extended to support any new format.
-
 ### Deliberately Minimalist (meaning: simple to learn!)
 
 This static site generator was developed for maintaining a site like [WizTools.org](http://www.wiztools.org/). This is best suited for sites that have few pages generated out of few templates. We do not support themes or blog-like-static-pages. Of course, by nature of flexibility of StaGen, support for themes and blogs can be easily hacked into a StaGen site.
@@ -22,7 +18,7 @@ Read the [tutorial](https://github.com/wiztools/stagen/wiki/Tutorial) to get sta
 
 ## Install
 
-Prerequisite: [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
+Prerequisite: [Java 10](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
 
 Download the `.zip` or `.tgz` package from our [releases section](https://github.com/wiztools/stagen/releases). Extract the content, and add to your `PATH` variable the `bin` folder. Once this is done, you will be able to execute stagen using the command `stagen`.
 
@@ -30,7 +26,7 @@ Download the `.zip` or `.tgz` package from our [releases section](https://github
 
 ### Build
 
-To build (requires Java 8, or above versions):
+To build (requires Java 10, or above versions):
 
     $ ./gradlew build
 

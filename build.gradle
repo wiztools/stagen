@@ -1,23 +1,5 @@
-// buildscript {
-//   repositories {
-//     jcenter()
-//   }
-//   dependencies {
-//     classpath 'ca.cutterslade.gradle:gradle-dependency-analyze:1.2.0'
-//   }
-// }
-
 apply plugin: 'java'
 apply plugin: 'application'
-// apply plugin: 'ca.cutterslade.analyze'
-// apply plugin: 'jacoco'
-
-// analyzeClassesDependencies {
-//   justWarn = true
-// }
-// analyzeTestClassesDependencies {
-//   justWarn = true
-// }
 
 // Application plugin config:
 mainClassName = 'org.wiztools.stagen.StaGenMain'
