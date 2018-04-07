@@ -20,11 +20,11 @@ public class RunnerGen implements Runner {
     
     private static final Logger LOG = Logger.getLogger(RunnerGen.class.getName());
     
-    @Inject private ContentTransformExecutor exeContent;
-    @Inject private TemplateExecutor exeTmpl;
-    @Inject private ConfigLoader exeConfig;
-    @Inject private CliCommand cliCmd;
-    @Inject private ValidatorUtil validator;
+    @Inject private ContentTransformExecutor exeContent = new MDContentTransformExecutor();
+    @Inject private TemplateExecutor exeTmpl = new STTemplateExecutor();
+    @Inject private ConfigLoader exeConfig = new JsonConfigLoader();
+    @Inject private CliCommand cliCmd = new CliCommand();
+    @Inject private ValidatorUtil validator = new ValidatorUtil();
     
     @Override
     public void run(File baseDir) throws IOException, ExecutorException {

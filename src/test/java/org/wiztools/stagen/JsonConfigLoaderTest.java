@@ -44,7 +44,7 @@ public class JsonConfigLoaderTest {
     public void testGetData() throws Exception {
         System.out.println("getData");
         File dataFile = new File("src/test/resources/config/_master.json");
-        ConfigLoader instance = ServiceLocator.getInstance(ConfigLoader.class);
+        ConfigLoader instance = new JsonConfigLoader();
         
         Map<String, Object> expResult = new HashMap<>();
         expResult.put("name", "Jill");

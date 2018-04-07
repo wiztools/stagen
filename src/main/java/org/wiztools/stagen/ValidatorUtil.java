@@ -10,8 +10,8 @@ import javax.inject.Inject;
  */
 public class ValidatorUtil {
     
-    @Inject private ConfigLoader exeConfig;
-    @Inject private CliCommand cliCmd;
+    @Inject private ConfigLoader exeConfig = new JsonConfigLoader();
+    @Inject private CliCommand cliCmd = new CliCommand();
     
     public void validate(File masterConfigFile,
                 File contentDir,

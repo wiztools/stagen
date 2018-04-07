@@ -1,13 +1,11 @@
 package org.wiztools.stagen;
 
 import com.sampullara.cli.Argument;
-import javax.inject.Singleton;
 
 /**
  *
  * @author subwiz
  */
-@Singleton
 public class CliCommand {
     @Argument(value = "port",
             alias = "p",

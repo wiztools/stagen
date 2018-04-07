@@ -48,8 +48,8 @@ public class MonitorChangesBuild implements Runnable {
                     LOG.info(MessageFormat.format("Detected change: {0}", filename));
                     
                     // Generate site:
-                    RunnerGen gen = ServiceLocator.getInstance(RunnerGen.class);
-                    RunnerClean clean = ServiceLocator.getInstance(RunnerClean.class);
+                    RunnerGen gen = new RunnerGen();
+                    RunnerClean clean = new RunnerClean();
                     try {
                         clean.run(baseDir);
                         gen.run(baseDir);

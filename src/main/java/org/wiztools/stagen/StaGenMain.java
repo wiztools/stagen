@@ -47,11 +47,11 @@ public class StaGenMain {
             else {
                 f = Constants.DEFAULT_DIR;
             }
-            final Runner runner = ServiceLocator.getInstance(RunnerInit.class);
+            final Runner runner = new RunnerInit();
             runner.run(f);
         }
         else if("clean".equals(command)) {
-            final Runner runner = ServiceLocator.getInstance(RunnerClean.class);
+            final Runner runner = new RunnerClean();
             runner.run(Constants.DEFAULT_DIR);
             
             // Clean can be combined with other commands:
@@ -62,11 +62,11 @@ public class StaGenMain {
             }
         }
         else if("gen".equals(command)) {
-            final Runner runner = ServiceLocator.getInstance(RunnerGen.class);
+            final Runner runner = new RunnerGen();
             runner.run(Constants.DEFAULT_DIR);
         }
         else if("run".equals(command)) {
-            final Runner runner = ServiceLocator.getInstance(RunnerRun.class);
+            final Runner runner = new RunnerRun();
             runner.run(Constants.DEFAULT_DIR);
         }
         else {
@@ -76,7 +76,7 @@ public class StaGenMain {
     
     public static void main(String[] args) {
         
-        CliCommand cmd = ServiceLocator.getInstance(CliCommand.class);
+        CliCommand cmd = new CliCommand();
         
         try {
             final List<String> params = Args.parse(cmd, args);

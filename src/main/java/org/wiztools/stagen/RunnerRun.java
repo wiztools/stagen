@@ -27,9 +27,9 @@ public class RunnerRun implements Runner {
     
     private static final Logger LOG = Logger.getLogger(RunnerRun.class.getName());
     
-    @Inject private RunnerClean clean;
-    @Inject private RunnerGen gen;
-    @Inject private CliCommand cmd;
+    @Inject private RunnerClean clean = new RunnerClean();
+    @Inject private RunnerGen gen = new RunnerGen();
+    @Inject private CliCommand cmd = new CliCommand();
     
     private void register(final WatchService watcher, Path ... dirs) throws IOException {
         for(Path dir: dirs) {

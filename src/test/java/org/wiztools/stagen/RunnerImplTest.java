@@ -46,7 +46,7 @@ public class RunnerImplTest {
         FileUtils.cleanDirectory(baseDir);
         Util.copyDirectory(tmplDir.toPath(), baseDir.toPath());
 
-        Runner instance = ServiceLocator.getInstance(Runner.class);
+        Runner instance = new RunnerGen();
         instance.run(baseDir);
 
         if(!Constants.getOutDir(baseDir).exists()) {
