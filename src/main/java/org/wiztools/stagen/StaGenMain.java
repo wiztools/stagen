@@ -15,8 +15,6 @@ import java.util.logging.Logger;
  */
 public class StaGenMain {
 
-    private static final Logger LOG = Logger.getLogger(StaGenMain.class.getName());
-
     private static void printHelp(PrintStream out) {
         out.println("Usage: stagen [options] (command)");
 
