@@ -39,6 +39,7 @@ dependencies {
     'org.codehaus.jackson:jackson-mapper-asl:1.9.13',
     'commons-io:commons-io:2.18.0',
     'com.github.spullara.cli-parser:cli-parser:1.1.6',
-    'org.eclipse.jetty:jetty-server:11.0.25'
+    'org.eclipse.jetty:jetty-server:11.0.25',
+    'org.slf4j:slf4j-simple:2.0.17'
   testImplementation 'junit:junit:4.+'
 }
