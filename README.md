@@ -18,7 +18,7 @@ Read the [tutorial](https://github.com/wiztools/stagen/wiki/Tutorial) to get sta
 
 ## Install
 
-Prerequisite: [Java 10](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
+Prerequisite: Java 17 or later.
 
 Download the `.zip` or `.tgz` package from our [releases section](https://github.com/wiztools/stagen/releases). Extract the content, and add to your `PATH` variable the `bin` folder. Once this is done, you will be able to execute stagen using the command `stagen`.
 
