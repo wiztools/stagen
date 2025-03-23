@@ -6,7 +6,7 @@ package org.wiztools.stagen;
  */
 public interface FileExtension {
     /**
-     * 
+     *
      * @return The file extension starting with `.'.
      */
     String getFileExtension();

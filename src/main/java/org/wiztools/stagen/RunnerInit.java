@@ -22,7 +22,7 @@ public class RunnerInit implements Runner {
                 throw new ExecutorException("Dir creation failed: " + baseDir);
             }
         }
-        
+
         // Init project if empty:
         if(Util.isDirEmpty(baseDir)) {
             File tmpFile = File.createTempFile("stagen_template_", ".zip");
@@ -35,5 +35,5 @@ public class RunnerInit implements Runner {
             throw new ValidationException("Directory not empty--can `init' only an empty directory.");
         }
     }
-    
+
 }

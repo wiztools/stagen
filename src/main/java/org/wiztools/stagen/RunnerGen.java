@@ -17,15 +17,15 @@ import org.wiztools.commons.FileUtil;
  * @author subwiz
  */
 public class RunnerGen implements Runner {
-    
+
     private static final Logger LOG = Logger.getLogger(RunnerGen.class.getName());
-    
+
     @Inject private ContentTransformExecutor exeContent = new MDContentTransformExecutor();
     @Inject private TemplateExecutor exeTmpl = new STTemplateExecutor();
     @Inject private ConfigLoader exeConfig = new JsonConfigLoader();
     @Inject private CliCommand cliCmd = new CliCommand();
     @Inject private ValidatorUtil validator = new ValidatorUtil();
-    
+
     @Override
     public void run(File baseDir) throws IOException, ExecutorException {
         // init all the directories:
@@ -34,24 +34,24 @@ public class RunnerGen implements Runner {
         final File configDir = Constants.getConfigDir(baseDir);
         final File staticDir = Constants.getStaticDir(baseDir);
         final File outDir = Constants.getOutDir(baseDir);
-        
+
         LOG.log(Level.INFO, "Content dir: {0}.", contentDir);
         LOG.log(Level.INFO, "Template dir: {0}.", templateDir);
         LOG.log(Level.INFO, "Static dir: {0}.", staticDir);
         LOG.log(Level.INFO, "Out dir: {0}.", outDir);
-        
+
         final File masterConfigFile = new File(configDir,
                 Constants.MASTER_CONFIG + exeConfig.getFileExtension());
-        
+
         // Validation:
         validator.validate(masterConfigFile, contentDir, templateDir, outDir);
-        
+
         // init master config:
         final Map<String, Object> masterConfMap = Collections.unmodifiableMap(
                 exeConfig.getConfigMap(masterConfigFile));
         LOG.log(Level.INFO, "Loaded master config from `{0}`.",
                 masterConfigFile.getName());
-                
+
         // init the out directories:
         outDir.mkdirs();
         FileUtils.cleanDirectory(outDir);
@@ -62,20 +62,20 @@ public class RunnerGen implements Runner {
         else {
             LOG.warning("Static directory not available--no content copied.");
         }
-        
+
         // Iterate through the content in contents dir:
         for(File contentFile: contentDir.listFiles(
                 (f)->{return f.getName().endsWith(exeContent.getFileExtension());})) {
             // Get base file name:
             final String fileName = contentFile.getName();
             final String baseFileName = Util.getBaseFileName(fileName);
-            
+
             LOG.log(Level.INFO, "Start processing content: {0}", fileName);
-            
+
             // Create a copy of the map for use with this instance:
             final Map<String, Object> confMap = new HashMap<>();
             confMap.putAll(masterConfMap);
-            
+
             // Custom config:
             final File customConfFile = new File(
                     configDir,
@@ -89,12 +89,12 @@ public class RunnerGen implements Runner {
                 LOG.log(Level.INFO, "Custom config NOT available for content: {0}",
                         fileName);
             }
-            
+
             // Content transform:
             String content = exeContent.transform(contentFile);
             confMap.put("_content", content);
             LOG.log(Level.INFO, "Transformed content: {0}", fileName);
-            
+
             // Get template:
             final File templateFile = Util.resolveFile(()->{
                 // Page specific template available?

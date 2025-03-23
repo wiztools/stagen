@@ -24,13 +24,13 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
  * @author subwiz
  */
 public class RunnerRun implements Runner {
-    
+
     private static final Logger LOG = Logger.getLogger(RunnerRun.class.getName());
-    
+
     @Inject private RunnerClean clean = new RunnerClean();
     @Inject private RunnerGen gen = new RunnerGen();
     @Inject private CliCommand cmd = new CliCommand();
-    
+
     private void register(final WatchService watcher, Path ... dirs) throws IOException {
         for(Path dir: dirs) {
             Files.walkFileTree(dir, new SimpleFileVisitor<Path>(){
@@ -42,16 +42,16 @@ public class RunnerRun implements Runner {
             });
         }
     }
-    
+
     private void startMonitoring(final File baseDir) throws IOException {
         Path contentDir = Constants.getContentDir(baseDir).toPath();
         Path tmplDir = Constants.getTemplateDir(baseDir).toPath();
         Path configDir = Constants.getConfigDir(baseDir).toPath();
         Path staticDir = Constants.getStaticDir(baseDir).toPath();
-        
+
         final WatchService watcher = FileSystems.getDefault().newWatchService();
         register(watcher, contentDir, tmplDir, configDir, staticDir);
-        
+
         Thread t = new Thread(new MonitorChangesBuild(baseDir, watcher));
         t.start();
     }
@@ -61,24 +61,24 @@ public class RunnerRun implements Runner {
         // Generate site:
         clean.run(baseDir);
         gen.run(baseDir);
-        
+
         // Start monitoring service:
         startMonitoring(baseDir);
-        
+
         // Start server:
         try {
             LOG.log(Level.INFO, "Starting HTTP server at port: {0}", cmd.port);
             Server server = new Server(cmd.port);
-            
+
             ResourceHandler rh = new ResourceHandler();
             rh.setDirectoriesListed(true);
             rh.setWelcomeFiles(new String[]{"index.html"});
             rh.setResourceBase(Constants.getOutDir(baseDir).getPath());
-            
+
             HandlerList handlers = new HandlerList();
             handlers.setHandlers(new Handler[]{rh, new DefaultHandler()});
             server.setHandler(handlers);
-            
+
             server.start();
             server.join();
         }
@@ -86,5 +86,5 @@ public class RunnerRun implements Runner {
             throw new ExecutorException(ex);
         }
     }
-    
+
 }

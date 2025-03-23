@@ -29,5 +29,5 @@ public class JsonConfigLoader implements ConfigLoader {
     public String getFileExtension() {
         return ".json";
     }
-    
+
 }

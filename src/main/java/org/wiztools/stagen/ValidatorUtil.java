@@ -9,10 +9,10 @@ import javax.inject.Inject;
  * @author subwiz
  */
 public class ValidatorUtil {
-    
+
     @Inject private ConfigLoader exeConfig = new JsonConfigLoader();
     @Inject private CliCommand cliCmd = new CliCommand();
-    
+
     public void validate(File masterConfigFile,
                 File contentDir,
                 File templateDir,
@@ -37,5 +37,5 @@ public class ValidatorUtil {
             }
         }
     }
-    
+
 }

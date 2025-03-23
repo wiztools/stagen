@@ -15,5 +15,5 @@ public class RunnerClean implements Runner {
         final File outDir = Constants.getOutDir(baseDir);
         FileUtils.deleteDirectory(outDir);
     }
-    
+
 }

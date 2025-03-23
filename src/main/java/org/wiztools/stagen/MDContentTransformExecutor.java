@@ -12,7 +12,7 @@ public class MDContentTransformExecutor implements ContentTransformExecutor {
 
     @Override
     public String transform(File file) throws ExecutorException {
-        
+
         try {
             final String out = new Markdown4jProcessor().process(file);
             return out;
@@ -26,5 +26,5 @@ public class MDContentTransformExecutor implements ContentTransformExecutor {
     public String getFileExtension() {
         return ".md";
     }
-    
+
 }

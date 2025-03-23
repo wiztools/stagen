@@ -13,7 +13,7 @@ import org.wiztools.commons.Charsets;
  * @author subwiz
  */
 public class STTemplateExecutor implements TemplateExecutor {
-    
+
     private static final char delimiterStartChar = '$';
     private static final char delimiterStopChar = '$';
 
@@ -22,19 +22,19 @@ public class STTemplateExecutor implements TemplateExecutor {
         try {
             final File tmplDir = templateFile.getParentFile();
             final String tmplName = Util.getBaseFileName(templateFile.getName());
-            
+
             STGroup stg = new STRawGroupDir(tmplDir.toURI().toURL(),
                     Charsets.UTF_8.name(),
                     delimiterStartChar,
                     delimiterStopChar);
-            
+
             ST st = stg.getInstanceOf(tmplName);
-            
+
             // Populate data:
             config.entrySet().stream().forEach((e) -> {
                 st.add(e.getKey(), e.getValue());
             });
-            
+
             return st.render();
         }
         catch(MalformedURLException ex) {
@@ -46,5 +46,5 @@ public class STTemplateExecutor implements TemplateExecutor {
     public String getFileExtension() {
         return ".st";
     }
-    
+
 }

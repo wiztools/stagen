@@ -7,7 +7,7 @@
         <delete dir="${tmpl.dir}/target"/>
         <zip destfile="${zip.file}" basedir="${tmpl.dir}"/>
     </target>
-    
+
     <target name="clean">
         <delete file="${zip.file}"/>
     </target>
