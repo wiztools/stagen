@@ -26,7 +26,7 @@ Download the `.zip` or `.tgz` package from our [releases section](https://github
 
 ### Build
 
-To build (requires Java 10, or above versions):
+To build (requires Java 17, or above versions):
 
     $ ./gradlew build
 
