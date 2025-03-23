@@ -16,12 +16,12 @@ import java.util.logging.Logger;
  * @author subwiz
  */
 public class MonitorChangesBuild implements Runnable {
-    
+
     private static final Logger LOG = Logger.getLogger(MonitorChangesBuild.class.getName());
-    
+
     private final File baseDir;
     private final WatchService watcher;
-    
+
     public MonitorChangesBuild(File baseDir, WatchService wk) {
         this.baseDir = baseDir;
         this.watcher = wk;
@@ -29,7 +29,7 @@ public class MonitorChangesBuild implements Runnable {
 
     @Override
     public void run() {
-        
+
         while(true) {
             WatchKey key;
             try {
@@ -38,15 +38,16 @@ public class MonitorChangesBuild implements Runnable {
             catch(InterruptedException ex) {
                 return;
             }
-            
+
             key.pollEvents().stream().forEach((event) -> {
                 WatchEvent.Kind<?> kind = event.kind();
                 if (!(kind == OVERFLOW)) {
-                    WatchEvent<Path> ev = (WatchEvent<Path>)event;
-                    
+                    @SuppressWarnings("unchecked")
+                    final WatchEvent<Path> ev = (WatchEvent<Path>)event;
+
                     Path filename = ev.context();
                     LOG.info(MessageFormat.format("Detected change: {0}", filename));
-                    
+
                     // Generate site:
                     RunnerGen gen = new RunnerGen();
                     RunnerClean clean = new RunnerClean();
@@ -59,12 +60,12 @@ public class MonitorChangesBuild implements Runnable {
                     }
                 }
             });
-            
+
             boolean valid = key.reset();
             if (!valid) {
                 break;
             }
         }
     }
-    
+
 }
