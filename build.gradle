@@ -4,9 +4,18 @@ plugins {
   id 'com.gradleup.shadow' version '9.0.0-beta11'
 }
 
+// Task to package the template:
+task runAntTask {
+  doLast {
+    ant.ant(antfile: './build-tmpl-zip.xml', target: 'zip')
+  }
+}
+build.dependsOn runAntTask
+
+// Lifecycle configuration:
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+  sourceCompatibility = JavaVersion.VERSION_17
+  targetCompatibility = JavaVersion.VERSION_17
 }
 
 application {
